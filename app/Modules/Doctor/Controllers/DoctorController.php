@@ -5,6 +5,7 @@ namespace App\Modules\Doctor\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Modules\Doctor\Services\DoctorService;
+use Illuminate\Support\Facades\Hash;
 
 class DoctorController extends Controller
 {
@@ -41,9 +42,10 @@ class DoctorController extends Controller
         return $this->successResponse($doctors, 'Bác sĩ đã được kích hoạt');
     }
 
+
     public function profile(Request $request)
     {
-        $doctor = $this->doctorService->getDoctorByUserId($request->user()->id);
+        $doctor = $this->doctorService->getDoctorByUserId($request->user()->id); // lấy thông tin bác sĩ theo user_id
         
         if (!$doctor) {
             // Tự động tạo doctor record với thông tin mặc định
@@ -108,5 +110,43 @@ class DoctorController extends Controller
         ];
         
         return $this->successResponse($specialties, 'Danh sách chuyên khoa');
+    }
+
+    public function updateSchedule(Request $request)
+    {
+        $validated = $request->validate([
+            'working_days' => 'sometimes|array',
+            'morning_start' => 'sometimes|date_format:H:i',
+            'morning_end' => 'sometimes|date_format:H:i',
+            'afternoon_start' => 'sometimes|date_format:H:i',
+            'afternoon_end' => 'sometimes|date_format:H:i',
+            'break_duration' => 'sometimes|integer|min:15|max:120',
+            'max_patients_per_day' => 'sometimes|integer|min:1|max:50',
+            'advance_booking_days' => 'sometimes|integer|min:1|max:90'
+        ]);
+
+        $doctor = $this->doctorService->updateDoctorProfile($request->user()->id, $validated);
+        return $this->successResponse($doctor, 'Schedule updated successfully');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $validated = $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:6|confirmed',
+            'new_password_confirmation' => 'required'
+        ]);
+
+        $user = $request->user();
+        
+        // Verify current password
+        if (!Hash::check($validated['current_password'], $user->password)) {
+            return $this->errorResponse('Mật khẩu hiện tại không đúng', 400);
+        }
+        
+        // Update password
+        $user->update(['password' => Hash::make($validated['new_password'])]);
+        
+        return $this->successResponse(null, 'Password changed successfully');
     }
 }

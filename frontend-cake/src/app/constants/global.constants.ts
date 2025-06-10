@@ -14,7 +14,9 @@ export const API_CONFIG = {
         },
         DOCTORS: {
             BASE: '/api/doctors',
-            ME: '/api/doctors/me'
+            ME: '/api/doctors/me',
+            SCHEDULE: '/api/doctors/schedule',
+            CHANGE_PASSWORD: '/api/doctors/change-password'
         },
         PATIENTS: {
             BASE: '/api/patients',
@@ -22,7 +24,8 @@ export const API_CONFIG = {
         },
         APPOINTMENTS: {
             BASE: '/api/appointments'
-        }
+        },
+        SPECIALTIES: '/api/specialties'
     }
 };
 

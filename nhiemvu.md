@@ -12,7 +12,7 @@
 
 #### 📂 Phần code cần đọc hiểu:
 - ✅ `app/Models/User.php`
-- ✅ `app/Modules/Auth/` (toàn bộ thư mục)
+- ✅ `app/Modules/Auth/` (toàn bộ thư mục) 
 - ✅ `app/Http/Middleware/` (toàn bộ)
 - ✅ `routes/api.php` (các route auth)
 - ✅ `app/Mail/` (email system)

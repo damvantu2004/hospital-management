@@ -17,12 +17,13 @@ import { BookAppointmentComponent } from './pages/book-appointment/book-appointm
 import { DoctorDashboardComponent } from './pages/doctor-dashboard/doctor-dashboard.component';
 import { PatientProfileComponent } from './pages/patient-profile/patient-profile.component';
 import { DoctorProfileComponent } from './pages/doctor-profile/doctor-profile.component';
+import { MyAppointmentsComponent } from './pages/my-appointments/my-appointments.component';
 
 export const routes: Routes = [
     // Public Routes
     {
-        path: '',
-        component: HomepageComponent
+        path: '', // khi mới vào trang web sẽ hiển thị trang home
+        component: HomepageComponent // component HomepageComponent sẽ được hiển thị khi người dùng truy cập vào route này. khi truy cập vào localhost:4200 sẽ hiển thị trang home, do HomepageComponent là component mặc định khi không có route nào được chỉ định, thể hiện ở dòng 24
     },
     {
         path: 'auth',
@@ -95,7 +96,7 @@ export const routes: Routes = [
     },
     {
         path: 'my-appointments',
-        component: PatientDashboardComponent,
+        component: MyAppointmentsComponent,
         canActivate: [authGuard, activeGuard, patientGuard]
     },
 

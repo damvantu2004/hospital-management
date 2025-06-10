@@ -1,2 +1,537 @@
-<p>homepage works!</p>
-<a routerLink="/auth">Đăng nhập</a>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bệnh viện Thông Minh - Chăm sóc sức khỏe toàn diện</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1e3d6f 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo::before {
+            content: "🏥";
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #4CAF50;
+        }
+
+        .auth-button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .auth-button:hover {
+            background: #45a049;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(44, 90, 160, 0.8), rgba(30, 61, 111, 0.8)), 
+                        url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI2MDAiIHZpZXdCb3g9IjAgMCAxMjAwIDYwMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjZjBmOGZmIi8+CjxjaXJjbGUgY3g9IjMwMCIgY3k9IjE1MCIgcj0iNDAiIGZpbGw9IiNlM2Y0ZmYiLz4KPGNpcmNsZSBjeD0iOTAwIiBjeT0iNDUwIiByPSI2MCIgZmlsbD0iI2UzZjRmZiIvPgo8L3N2Zz4=');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #2c5aa0;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #2c5aa0;
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            color: #2c5aa0;
+            margin-bottom: 1rem;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1e3d6f 100%);
+            color: white;
+            padding: 60px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: #4CAF50;
+        }
+
+        .stat-item p {
+            font-size: 1.1rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .contact-info {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-item::before {
+            content: "📍";
+            margin-right: 15px;
+            font-size: 1.5rem;
+        }
+
+        .contact-item:nth-child(2)::before {
+            content: "📞";
+        }
+
+        .contact-item:nth-child(3)::before {
+            content: "✉️";
+        }
+
+        .contact-item:nth-child(4)::before {
+            content: "🕒";
+        }
+
+        /* Footer */
+        footer {
+            background: #1e3d6f;
+            color: white;
+            padding: 40px 0 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #4CAF50;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: #4CAF50;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            color: #ccc;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Bệnh viện Thông Minh</div>
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="#home">Trang chủ</a></li>
+                        <li><a href="#services">Dịch vụ</a></li>
+                        <li><a href="#doctors">Bác sĩ</a></li>
+                        <li><a href="#contact">Liên hệ</a></li>
+                    </ul>
+                </nav>
+                <a routerLink="/auth" class="auth-button">Đăng nhập</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Chăm sóc sức khỏe toàn diện</h1>
+            <p>Với đội ngũ bác sĩ chuyên nghiệp và trang thiết bị hiện đại, chúng tôi cam kết mang đến dịch vụ y tế chất lượng cao nhất cho bạn và gia đình.</p>
+            <div class="cta-buttons">
+                <a href="#services" class="btn btn-primary">Khám phá dịch vụ</a>
+                <a href="#contact" class="btn btn-secondary">Đặt lịch khám</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Dịch vụ y tế</h2>
+                <p>Chúng tôi cung cấp đầy đủ các dịch vụ y tế từ khám tổng quát đến chuyên khoa</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🩺</div>
+                    <h3>Khám tổng quát</h3>
+                    <p>Khám sức khỏe định kỳ và tư vấn y tế chuyên nghiệp</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">❤️</div>
+                    <h3>Tim mạch</h3>
+                    <p>Chẩn đoán và điều trị các bệnh lý về tim mạch</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🧠</div>
+                    <h3>Thần kinh</h3>
+                    <p>Điều trị các rối loạn thần kinh và tâm thần</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">👶</div>
+                    <h3>Nhi khoa</h3>
+                    <p>Chăm sóc sức khỏe toàn diện cho trẻ em</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🦴</div>
+                    <h3>Chấn thương chỉnh hình</h3>
+                    <p>Điều trị chấn thương và các bệnh lý về xương khớp</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🔬</div>
+                    <h3>Xét nghiệm</h3>
+                    <p>Xét nghiệm máu, nước tiểu và các chỉ số sinh hóa</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>50+</h3>
+                    <p>Bác sĩ chuyên khoa</p>
+                </div>
+                <div class="stat-item">
+                    <h3>10,000+</h3>
+                    <p>Bệnh nhân đã khám</p>
+                </div>
+                <div class="stat-item">
+                    <h3>15+</h3>
+                    <p>Năm kinh nghiệm</p>
+                </div>
+                <div class="stat-item">
+                    <h3>24/7</h3>
+                    <p>Cấp cứu</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Liên hệ với chúng tôi</h2>
+                <p>Đặt lịch khám hoặc liên hệ để được tư vấn</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div>
+                            <strong>Địa chỉ</strong><br>
+                            123 Đường ABC, Quận 1, TP.HCM
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div>
+                            <strong>Điện thoại</strong><br>
+                            (028) 1234 5678
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div>
+                            <strong>Email</strong><br>
+                            info&#64;benhvienabc.com
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div>
+                            <strong>Giờ làm việc</strong><br>
+                            24/7 - Cấp cứu<br>
+                            7:00 - 17:00 - Khám thường
+                        </div>
+                    </div>
+                </div>
+                <div style="background: #f8f9fa; padding: 2rem; border-radius: 15px;">
+                    <h3 style="margin-bottom: 1rem; color: #2c5aa0;">Đặt lịch khám nhanh</h3>
+                    <form style="display: flex; flex-direction: column; gap: 1rem;">
+                        <input type="text" placeholder="Họ và tên" style="padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                        <input type="tel" placeholder="Số điện thoại" style="padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                        <select style="padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                            <option>Chọn chuyên khoa</option>
+                            <option>Khám tổng quát</option>
+                            <option>Tim mạch</option>
+                            <option>Thần kinh</option>
+                            <option>Nhi khoa</option>
+                        </select>
+                        <textarea placeholder="Ghi chú" rows="3" style="padding: 12px; border: 1px solid #ddd; border-radius: 8px; resize: vertical;"></textarea>
+                        <button type="submit" class="btn btn-primary">Đặt lịch ngay</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Bệnh viện ABC</h3>
+                    <p>Chăm sóc sức khỏe toàn diện với tình yêu thương và chuyên nghiệp</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Dịch vụ</h3>
+                    <ul>
+                        <li><a href="#">Khám tổng quát</a></li>
+                        <li><a href="#">Chuyên khoa</a></li>
+                        <li><a href="#">Cấp cứu 24/7</a></li>
+                        <li><a href="#">Xét nghiệm</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Thông tin</h3>
+                    <ul>
+                        <li><a href="#">Về chúng tôi</a></li>
+                        <li><a href="#">Đội ngũ bác sĩ</a></li>
+                        <li><a href="#">Tin tức</a></li>
+                        <li><a href="#">Tuyển dụng</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Hỗ trợ</h3>
+                    <ul>
+                        <li><a href="#">Hướng dẫn</a></li>
+                        <li><a href="#">Câu hỏi thường gặp</a></li>
+                        <li><a href="#">Chính sách</a></li>
+                        <li><a href="#">Liên hệ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Bệnh viện ABC. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -6,7 +6,7 @@ import { authInterceptor } from './interceptors/auth.interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }), 
-    provideRouter(routes),
+    provideRouter(routes), // cung cấp router với các route được định nghĩa trong app.routes.ts
     provideHttpClient(
       withInterceptors([authInterceptor])
     )

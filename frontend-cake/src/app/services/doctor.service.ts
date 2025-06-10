@@ -31,11 +31,11 @@ export class DoctorService {
     }
 
     getMyProfile(): Observable<any> {
-        return this.http.get<any>(`${this.url}/api/doctors/me`);
+        return this.http.get<any>(`${this.url}/api/doctor/profile`);
     }
 
     updateMyProfile(doctorData: DoctorDTO): Observable<any> {
-        return this.http.put<any>(`${this.url}/api/doctors/me`, doctorData);
+        return this.http.put<any>(`${this.url}/api/doctor/profile`, doctorData);
     }
 
     getSpecialties(): Observable<any> {

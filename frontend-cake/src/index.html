@@ -3,8 +3,8 @@
 
 <head>
   <meta charset="utf-8">
-  <title>FrontendCake</title>
-  <base href="/">
+  <title>Nhóm 11</title>
+  <base href="/"> <!-- để chỉ định base URL cho ứng dụng -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <!-- reCAPTCHA script will be loaded dynamically by components -->
@@ -12,9 +12,12 @@
 
 <body class="">
   <app-root class="h-100 d-block"></app-root>
-  
+  <!-- Angular CLI sẽ tự động inject các script vào đây -->
+  <!-- <script src="runtime.js"></script> -->
+  <!-- <script src="polyfills.js"></script> -->
+  <!-- <script src="main.js"></script> -->
   <!-- Placeholder for debug purposes -->
-  <div id="recaptcha-debug" style="display: none;"></div>
+  <div id="recaptcha-debug" style="display: none;"></div> <!-- dùng để debug recaptcha -->
 </body>
 
 </html>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { AppointmentService } from '../../services/appointment.service';
 import { PatientService } from '../../services/patient.service';
 import { DoctorService } from '../../services/doctor.service';
@@ -21,7 +21,11 @@ export class PatientDashboardComponent implements OnInit {
   upcomingAppointments: any[] = [];
   recentAppointments: any[] = [];
   availableDoctors: any[] = [];
+  allAppointments: any[] = [];
+  filteredAppointments: any[] = [];
   loading: boolean = true;
+  isMyAppointmentsView: boolean = false;
+  selectedStatus: string = 'all';
   stats = {
     totalAppointments: 0,
     pendingAppointments: 0,
@@ -32,11 +36,18 @@ export class PatientDashboardComponent implements OnInit {
     private appointmentService: AppointmentService,
     private patientService: PatientService,
     private doctorService: DoctorService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
+
+  goToMyAppointments(): void {
+    console.log('🔍 Navigating to my-appointments...');
+    this.router.navigate(['/my-appointments']);
+  }
 
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
+    this.isMyAppointmentsView = this.router.url === '/my-appointments';
     this.loadDashboardData();
   }
 
@@ -52,6 +63,7 @@ export class PatientDashboardComponent implements OnInit {
         console.error('Error loading patient profile:', error);
       }
     });
+    
 
     // Load appointments
     this.appointmentService.getMyAppointments().subscribe({
@@ -80,6 +92,8 @@ export class PatientDashboardComponent implements OnInit {
   processAppointments(appointments: any[]): void {
     const now = new Date();
     
+    this.allAppointments = appointments;
+    
     this.upcomingAppointments = appointments
       .filter(apt => new Date(apt.appointment_date) >= now && apt.status !== 'cancelled')
       .sort((a, b) => new Date(a.appointment_date).getTime() - new Date(b.appointment_date).getTime())
@@ -94,6 +108,36 @@ export class PatientDashboardComponent implements OnInit {
     this.stats.totalAppointments = appointments.length;
     this.stats.pendingAppointments = appointments.filter(apt => apt.status === 'pending').length;
     this.stats.completedAppointments = appointments.filter(apt => apt.status === 'completed').length;
+    
+    if (this.isMyAppointmentsView) {
+      this.filterAppointments();
+    }
+  }
+
+  filterAppointments(): void {
+    if (this.selectedStatus === 'all') {
+      this.filteredAppointments = [...this.allAppointments];
+    } else {
+      this.filteredAppointments = this.allAppointments.filter(apt => apt.status === this.selectedStatus);
+    }
+    
+    this.filteredAppointments.sort((a, b) => {
+      const dateA = new Date(a.appointment_date + ' ' + a.appointment_time);
+      const dateB = new Date(b.appointment_date + ' ' + b.appointment_time);
+      return dateB.getTime() - dateA.getTime();
+    });
+  }
+
+  onStatusChange(status: string): void {
+    this.selectedStatus = status;
+    this.filterAppointments();
+  }
+
+  getStatusCount(status: string): number {
+    if (status === 'all') {
+      return this.allAppointments.length;
+    }
+    return this.allAppointments.filter(apt => apt.status === status).length;
   }
 
   formatDate(date: string): string {

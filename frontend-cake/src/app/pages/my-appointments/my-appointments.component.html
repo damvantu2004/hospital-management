@@ -1,0 +1,99 @@
+<div class="d-flex">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Main Content -->
+  <div class="main-content flex-grow-1">
+    <div class="container-fluid py-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h1 class="h3 mb-1">   Lịch hẹn của tôi</h1>
+          <p class="text-muted">   Quản lý tất cả lịch hẹn khám bệnh</p>
+        </div>
+        <div>
+          <a routerLink="/patient-dashboard" class="btn btn-outline-secondary me-2">
+            <i class="fas fa-arrow-left me-2"></i>Quay lại
+          </a>
+          <a routerLink="/book-appointment" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Đặt lịch mới
+          </a>
+        </div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <ul class="nav nav-pills">
+            <li class="nav-item">
+              <a class="nav-link" [class.active]="selectedStatus === 'all'" (click)="onStatusChange('all')" style="cursor: pointer;">
+                Tất cả ({{ getStatusCount('all') }})
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [class.active]="selectedStatus === 'pending'" (click)="onStatusChange('pending')" style="cursor: pointer;">
+                Chờ xác nhận ({{ getStatusCount('pending') }})
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [class.active]="selectedStatus === 'confirmed'" (click)="onStatusChange('confirmed')" style="cursor: pointer;">
+                Đã xác nhận ({{ getStatusCount('confirmed') }})
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [class.active]="selectedStatus === 'completed'" (click)="onStatusChange('completed')" style="cursor: pointer;">
+                Hoàn thành ({{ getStatusCount('completed') }})
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [class.active]="selectedStatus === 'cancelled'" (click)="onStatusChange('cancelled')" style="cursor: pointer;">
+                Đã hủy ({{ getStatusCount('cancelled') }})
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Appointments List -->
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div *ngIf="loading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+
+          <div *ngIf="!loading && filteredAppointments.length === 0" class="text-center py-5 text-muted">
+            <i class="fas fa-calendar-times fa-3x mb-3 opacity-50"></i>
+            <h5>Không có lịch hẹn nào</h5>
+            <a routerLink="/book-appointment" class="btn btn-primary mt-3">
+              <i class="fas fa-plus me-2"></i>Đặt lịch ngay
+            </a>
+          </div>
+
+          <div *ngIf="!loading && filteredAppointments.length > 0">
+            <div *ngFor="let appointment of filteredAppointments" class="appointment-item mb-3 p-4 border rounded">
+              <div class="row align-items-center">
+                <div class="col-md-2">
+                  <div class="text-center">
+                    <div class="fw-bold text-primary">{{ formatDate(appointment.appointment_date) }}</div>
+                    <div class="text-muted">{{ formatTime(appointment.appointment_time) }}</div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <h6 class="mb-1">{{ appointment.doctor?.user?.name }}</h6>
+                  <p class="text-muted mb-1 small">{{ appointment.doctor?.specialty }}</p>
+                  <small class="text-muted">{{ appointment.reason }}</small>
+                </div>
+                <div class="col-md-3 text-end">
+                  <span [class]="getStatusBadgeClass(appointment.status)">
+                    {{ getStatusText(appointment.status) }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

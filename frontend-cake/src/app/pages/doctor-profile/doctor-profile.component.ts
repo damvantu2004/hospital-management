@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { DoctorService } from '../../services/doctor.service';
 import { AuthService } from '../../services/auth.service';
 import { LoadingComponent } from '../../components/loading/loading.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-doctor-profile',
@@ -55,7 +56,8 @@ export class DoctorProfileComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private doctorService: DoctorService,
-    private authService: AuthService
+    private authService: AuthService,
+    private http: HttpClient
   ) {
     this.profileForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -95,7 +97,39 @@ export class DoctorProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
+    
+    // DEBUG: Log user info
+    console.log('🔍 Current user:', this.currentUser);
+    console.log('🔍 User role:', this.currentUser?.role);
+    console.log('🔍 User active:', this.currentUser?.is_active);
+    console.log('🔍 Token:', this.authService.getToken());
+    
+    // Test routes trước
+    this.testRoutes();
+    
     this.loadProfile();
+  }
+
+  testRoutes(): void {
+    console.log('🧪 Testing routes...');
+    
+    // Test route cơ bản
+    this.http.get('http://localhost:8000/api/test-doctors-me').subscribe({
+      next: (response) => console.log('✅ Basic route works:', response),
+      error: (error) => console.error('❌ Basic route failed:', error)
+    });
+    
+    // Test auth route
+    this.http.get('http://localhost:8000/api/test-auth').subscribe({
+      next: (response) => console.log('✅ Auth route works:', response),
+      error: (error) => console.error('❌ Auth route failed:', error)
+    });
+    
+    // Test doctor route  
+    this.http.get('http://localhost:8000/api/test-doctor').subscribe({
+      next: (response) => console.log('✅ Doctor route works:', response),
+      error: (error) => console.error('❌ Doctor route failed:', error)
+    });
   }
 
   loadProfile(): void {

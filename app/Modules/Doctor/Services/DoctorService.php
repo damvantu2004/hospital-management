@@ -20,7 +20,7 @@ class DoctorService
 
     public function getDoctorByUserId($userId)
     {
-        return Doctor::where('user_id', $userId)->with('user')->first();
+        return Doctor::where('user_id', $userId)->with('user')->first(); // lấy thông tin bác sĩ theo user_id
     }
 
     public function getAvailableDoctors()

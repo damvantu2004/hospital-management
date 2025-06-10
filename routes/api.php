@@ -63,9 +63,16 @@ Route::middleware(['auth:api', 'active'])->group(function () {
     |--------------------------------------------------------------------------
     */
     Route::middleware(['doctor'])->group(function () {
-        // Doctor profile management
-        Route::get('doctors/me', [DoctorController::class, 'profile']);
-        Route::put('doctors/me', [DoctorController::class, 'updateProfile']);
+        // Đổi tên route
+        Route::get('doctor/profile', [DoctorController::class, 'profile']);
+        Route::put('doctor/profile', [DoctorController::class, 'updateProfile']);
+        
+        // Doctor patient management
+        Route::get('doctors/my-patients', [DoctorController::class, 'myPatients']);
+        
+        // Schedule and password
+        Route::put('doctors/schedule', [DoctorController::class, 'updateSchedule']);
+        Route::post('doctors/change-password', [DoctorController::class, 'changePassword']);
         
         // Doctor view patients
         Route::get('patients', [PatientController::class, 'index']);
@@ -80,7 +87,7 @@ Route::middleware(['auth:api', 'active'])->group(function () {
     | Both Patient & Doctor Routes
     |--------------------------------------------------------------------------
     */
-    // View appointments (filtered by role)
+    // View appointments (filtered by role) được lấy từ AppointmentController 
     Route::get('appointments', [AppointmentController::class, 'index']);
     Route::get('appointments/{id}', [AppointmentController::class, 'show']);
 
@@ -110,3 +117,31 @@ Route::middleware(['auth:api', 'active'])->group(function () {
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+
+Route::get('test-doctors-me', function () {
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Test route works',
+        'timestamp' => now()
+    ]);
+});
+
+// Test với middleware auth
+Route::middleware(['auth:api'])->get('test-auth', function (Request $request) {
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Auth middleware works',
+        'user' => $request->user(),
+        'timestamp' => now()
+    ]);
+});
+
+// Test với middleware doctor
+Route::middleware(['auth:api', 'active', 'doctor'])->get('test-doctor', function (Request $request) {
+    return response()->json([
+        'status' => 'success', 
+        'message' => 'Doctor middleware works',
+        'user' => $request->user(),
+        'timestamp' => now()
+    ]);
+});

@@ -1,0 +1,152 @@
+/* Layout chính khớp với các component khác */
+.main-content {
+  min-height: 100vh;
+  background: #f8f9fa;
+  margin-left: 20px;
+}
+
+/* Mobile responsive - khớp với pattern chuẩn */
+@media (max-width: 992px) {
+  .main-content {
+    margin-left: 0;
+  }
+}
+
+.appointment-item {
+  background: #fff;
+  border: 1px solid #e9ecef;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.appointment-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.date-time-display {
+  background: #f8f9ff;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.appointment-date {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.appointment-time {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #6c757d;
+}
+
+.doctor-info h6 {
+  color: #2c3e50;
+}
+
+.reason-info {
+  background: #f8f9fa;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.status-actions {
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.nav-pills .nav-link {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #007bff;
+}
+
+.nav-pills .nav-link:not(.active) {
+  color: #6c757d;
+  background-color: #f8f9fa;
+}
+
+.nav-pills .nav-link:not(.active):hover {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+.card {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn {
+  border-radius: 8px;
+}
+
+.badge {
+  padding: 0.5em 1em;
+  border-radius: 15px;
+}
+
+/* Container fluid override */
+.container-fluid {
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Responsive cho mobile và tablet */
+@media (max-width: 767px) {
+  .main-content {
+    padding: 15px;
+  }
+  
+  .nav-pills {
+    flex-direction: column;
+  }
+  
+  .nav-pills .nav-item {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .nav-pills .nav-link {
+    margin-right: 0;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .appointment-item .row > div {
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .status-actions {
+    align-items: center;
+  }
+  
+  .date-time-display {
+    margin-bottom: 15px;
+  }
+}
+
+/* Fix cho loading và empty states */
+.text-center {
+  width: 100%;
+}
+
+.py-5 {
+  padding-top: 3rem !important;
+  padding-bottom: 3rem !important;
+}
+
+/* Debug - thêm border để xem element */

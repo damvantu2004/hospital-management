@@ -73,9 +73,9 @@
                   <i class="fas fa-calendar-check text-primary me-2"></i>
                   Lịch hẹn sắp tới
                 </h5>
-                <a routerLink="/my-appointments" class="btn btn-sm btn-outline-primary">
+                <button class="btn btn-sm btn-outline-primary" (click)="goToMyAppointments()">
                   Xem tất cả
-                </a>
+                </button>
               </div>
             </div>
             <div class="card-body">
@@ -204,10 +204,10 @@
                   <i class="fas fa-calendar-plus me-2"></i>
                   Đặt lịch khám mới
                 </a>
-                <a routerLink="/my-appointments" class="btn btn-outline-primary">
+                <button class="btn btn-outline-primary" (click)="goToMyAppointments()">
                   <i class="fas fa-list me-2"></i>
                   Xem tất cả lịch hẹn
-                </a>
+                </button>
                 <a routerLink="/doctors" class="btn btn-outline-secondary">
                   <i class="fas fa-user-md me-2"></i>
                   Tìm bác sĩ
